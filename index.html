@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktywne Tło</title>
+    <style> 
+        body { margin: 0; overflow: hidden; height: 100vh; } 
+        #controls { position: absolute; top: 10px; left: 10px; display: flex; gap: 10px; align-items: center; }
+        #playButton { cursor: pointer; font-size: 20px; }
+        canvas { display: block; }
+    </style> 
+</head>
+<body>
+    <div id="controls">
+        <input id="particleSlider" type="range" min="10" max="300" value="100">
+        <input type="color" id="bgColor" value="#000000">
+        <input type="color" id="particleColor" value="#ffffff">
+        <button id="playButton">▶️</button>
+    </div>
+
+    <!-- Muzyka w tle -->
+    <audio id="bgMusic" src="20min.mp3" loop></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Skrypt do obsługi przycisku Play/Pause
+        const bgMusic = document.getElementById("bgMusic");
+        const playButton = document.getElementById("playButton");
+	bgMusic.volume = 0.1;
+        playButton.addEventListener("click", function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                playButton.textContent = "⏸️";
+            } else {
+                bgMusic.pause();
+                playButton.textContent = "▶️";
+            }
+        });
+    </script>
+</body>
+</html>
