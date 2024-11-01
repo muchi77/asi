@@ -21,7 +21,7 @@ function draw() {
     for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].show();
-        particles[i].connect(particles);
+        particles[i].connect(particles); // Wywołanie połączeń
     }
 }
 
@@ -56,6 +56,7 @@ class Particle {
         this.pos.add(this.vel);
         this.vel.limit(2);
 
+        // Odbicie od krawędzi
         if (this.pos.x > width || this.pos.x < 0) this.vel.x *= -1;
         if (this.pos.y > height || this.pos.y < 0) this.vel.y *= -1;
     }
@@ -67,11 +68,14 @@ class Particle {
     }
 
     connect(particles) {
-        for (let i = 0; i < particles.length; i++) {
-            let d = dist(this.pos.x, this.pos.y, particles[i].pos.x, particles[i].pos.y);
+        let connections = 0;
+        for (let other of particles) {
+            if (connections >= 5 || other === this) continue;
+            let d = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
             if (d < 100) {
-                stroke(particleColor + '80'); 
-                line(this.pos.x, this.pos.y, particles[i].pos.x, particles[i].pos.y);
+                stroke(`${particleColor}80`); // Przezroczystość linii
+                line(this.pos.x, this.pos.y, other.pos.x, other.pos.y);
+                connections++;
             }
         }
     }
